@@ -53,4 +53,6 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
   # Store files locally.
   config.active_storage.service = :local
+
+  Rails.application.routes.default_url_options[:host] = 'localhost:3000'
 end
