@@ -17,3 +17,10 @@
 /yarn-error.log
 
 .byebug_history
+
+config/deploy
+config/config.yml
+config/database.yml
+config/deploy.rb
+Capfile
+config/creds.txt
