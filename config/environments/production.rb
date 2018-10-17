@@ -91,4 +91,7 @@ Rails.application.configure do
   config.active_storage.service = :amazon
   require 'uglifier'
   config.assets.js_compressor = Uglifier.new(harmony: true)
+
+  # config.secret_key_base = ENV["SECRET_KEY_BASE"]
+  Rails.application.routes.default_url_options[:host] = 'ec2-34-209-118-84.us-west-2.compute.amazonaws.com'
 end
