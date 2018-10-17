@@ -28,7 +28,7 @@ permit_params :name, :cover,
         f.inputs "Add Tracks" do
             f.has_many :tracks, allow_destroy: true, heading: false do |b|
                 b.input :name
-                b.input :media, label: "Tracks", as: :file
+                b.input :media, label: "Tracks", as: :file, input_html: { "data-direct-upload-url": rails_direct_uploads_url }
             end
         end
         f.actions

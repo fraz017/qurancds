@@ -205,7 +205,7 @@ ActiveAdmin.setup do |config|
     # config.register_javascript 'file-type.js'
     # config.register_javascript 'dropzone.js'
     # config.register_javascript 'filepond.jquery.js'
-    # config.register_javascript 'activestorage.js'
+    config.register_javascript 'activestorage.js'
     config.register_javascript 'custom.js'
 
   # == CSV options
