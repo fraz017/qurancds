@@ -23,7 +23,6 @@ permit_params :name, :cover,
             f.input :categories, :as => :select, :input_html => {:multiple => true, class: "categories_select", style: "width: 80%;"}
             f.input :speakers, :as => :select, :input_html => {:multiple => true, class: "speakers_select", style: "width: 80%;"}
             f.input :languages, :as => :select, :input_html => {:multiple => true, class: "languages_select", style: "width: 80%;"}
-            f.input :tracks, as: :file, input_html: {class: "filepond", multiple: true, "data-direct-upload-url": rails_direct_uploads_url}
         end
         f.inputs "Add Tracks" do
             f.has_many :tracks, allow_destroy: true, heading: false do |b|
