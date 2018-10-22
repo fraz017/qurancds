@@ -28,7 +28,7 @@ config.filters = false
     form do |f|
         f.inputs 'Speaker' do
             f.input :name
-            f.input :image, as: :file
+            # f.input :image, as: :file
         end
         f.actions
     end

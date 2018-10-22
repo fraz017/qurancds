@@ -7,8 +7,14 @@ Rails.application.routes.draw do
       resources :categories, only: [:index, :show]
       resources :speakers, only: [:index, :show]
       resources :languages, only: [:index, :show]
-      resources :cds, only: [:index, :show]
+      resources :cds, only: [:index, :show] do 
+        member do 
+          post 'feedback'
+          get 'ratings'
+        end
+      end
       resources :tracks, only: [:show]
+      post '/track/process', to: 'tracks#process_track'
     end
   end
 end
