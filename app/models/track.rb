@@ -9,7 +9,7 @@ class Track < ApplicationRecord
 
   def as_json(options = {})
     h = super(options.merge({ except: [:created_at, :updated_at, :cd_id]}))
-    h[:track] = Rails.application.routes.url_for(controller: 'active_storage/blobs', action: :show, signed_id: media.signed_id, filename: media.filename)
+    h[:track] = media.attached? ? Rails.application.routes.url_for(controller: 'active_storage/blobs', action: :show, signed_id: media.signed_id, filename: media.filename) : ""
     h
   end
     
