@@ -2,7 +2,7 @@ ActiveAdmin.register Cd do
 # See permitted parameters documentation:
 # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
 #
-permit_params :name, :cover,
+permit_params :name, :cover, :order_url,# tracks: [],
     category_ids: [],
     language_ids: [],
     speaker_ids: [],
@@ -20,9 +20,12 @@ permit_params :name, :cover,
         f.inputs 'Add CD' do
             f.input :name
             f.input :cover, as: :file
+            f.input :order_url
             f.input :categories, :as => :select, :input_html => {:multiple => true, class: "categories_select", style: "width: 80%;"}
             f.input :speakers, :as => :select, :input_html => {:multiple => true, class: "speakers_select", style: "width: 80%;"}
             f.input :languages, :as => :select, :input_html => {:multiple => true, class: "languages_select", style: "width: 80%;"}
+            # f.input :tracks, :as => :file, :input_html => {:multiple => true, class: "filepond", style: "width: 80%;"}
+            # render 'new_form', {f: f}
         end
         f.inputs "Add Tracks" do
             f.has_many :tracks, allow_destroy: true, heading: false do |b|
