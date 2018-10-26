@@ -46,6 +46,7 @@ permit_params :name, :cover, :order_url,# tracks: [],
                     "No Cover Avaialable"
                 end
             end
+            row :order_url
             row "Categories" do |app|
                 ul do 
                     app.categories.each do |c|
