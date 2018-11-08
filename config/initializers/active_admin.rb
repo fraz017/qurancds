@@ -194,18 +194,18 @@ ActiveAdmin.setup do |config|
   #
   # To load a stylesheet:
     config.register_stylesheet 'select2.css'
-    # config.register_stylesheet 'dropzone.css'
+    config.register_stylesheet 'filepond.css'
   #
   # You can provide an options hash for more control, which is passed along to stylesheet_link_tag():
   #   config.register_stylesheet 'my_print_stylesheet.css', media: :print
   #
   # To load a javascript file:
-    config.register_javascript 'select2.js'
-    # config.register_javascript 'rename.js'
-    # config.register_javascript 'file-type.js'
-    # config.register_javascript 'dropzone.js'
-    # config.register_javascript 'filepond.jquery.js'
     config.register_javascript 'activestorage.js'
+    config.register_javascript 'select2.js'
+    config.register_javascript 'rename.js'
+    config.register_javascript 'file-type.js'
+    config.register_javascript 'filepond.js'
+    config.register_javascript 'filepond.jquery.js'
     config.register_javascript 'custom.js'
 
   # == CSV options

@@ -11,10 +11,10 @@ Rails.application.routes.draw do
         member do 
           post 'feedback'
           get 'ratings'
+          get 'tracks'
         end
       end
-      resources :tracks, only: [:show]
-      post '/track/process', to: 'tracks#process_track'
+      resources :tracks, only: [:show, :destroy]
     end
   end
 end

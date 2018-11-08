@@ -1,3 +1,89 @@
 <script>
-    
+    class Uploader {
+        constructor(file, url) {
+            this.upload = new ActiveStorage.DirectUpload(file, url, this)
+        }
+
+        directUploadWillStoreFileWithXHR(request) {
+            request.upload.addEventListener("progress",
+                event => this.directUploadDidProgress(event))
+        }
+
+        directUploadDidProgress(e) {
+            console.log(e.loaded)
+            // Use event.loaded and event.total to update the progress bar
+            //progress(e.lengthComputable, e.loaded, e.total);
+        }
+    }
+
+    FilePond.registerPlugin(
+        // previews dropped images
+        FilePondPluginFileRename,
+        FilePondPluginFileValidateType
+    );
+
+    const pond = FilePond.create(
+        document.querySelector('.filepond')
+    );
+
+    var input = document.querySelector('.filepond--root');
+    var files = []
+
+    $.ajax({
+        url: "/api/v1/cds/<%= params[:id] %>", 
+        success: function(result){
+            $.each(result.data.tracks, function(k, v){
+                files.push({source: v.id, options: {type: 'limbo', file: {name: v.name,size: v.size,type: 'audio/mp3'}}});
+            })
+            FilePond.setOptions({
+                allowFileTypeValidation: true,
+                acceptedFileTypes: ['audio/mpeg', 'audio/mp3'],
+                allowFileRename: true,
+                files: files,
+                server: {
+                    process:(fieldName, file, metadata, load, error, progress, abort) => {
+
+                        const url = "<%= rails_direct_uploads_url %>";
+                        const uploader = new Uploader(file, url)
+
+                        uploader.upload.create((error, blob) => {
+                            if (error) {
+                            } else {
+                                const hiddenField = document.createElement('input')
+                                hiddenField.setAttribute("type", "hidden");
+                                hiddenField.setAttribute("value", blob.signed_id);
+                                hiddenField.name = "cd[tracks][]"
+                                document.querySelector('form').appendChild(hiddenField)
+                                load(blob.id)
+                            }
+                        })
+
+                        // Should call the progress method to update the progress to 100% before calling load
+                        // Setting computable to false switches the loading indicator to infinite mode
+                        uploader.directUploadDidProgress = (e) => {
+                            progress(e.lengthComputable, e.loaded, e.total);
+                        };
+                    },
+                    revert: (uniqueFileId, load, error) => {
+                        // Should remove the earlier created temp file here
+                        // ...
+                        $.ajax({
+                            url: "/api/v1/tracks/"+uniqueFileId,
+                            method: "DELETE", 
+                            success: function(response){
+                                var id = response.data.id
+                                $("input[value='"+id+"']").remove();
+                                pond.removeFile(uniqueFileId)
+                                load();
+                            },
+                            error: function(){
+                                // Can call the error method if something is wrong, should exit after
+                                error('oh my goodness');
+                            }
+                        });
+                    }
+                }
+            }) 
+        }
+    });
 </script>

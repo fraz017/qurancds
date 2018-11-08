@@ -2,11 +2,11 @@ ActiveAdmin.register Cd do
 # See permitted parameters documentation:
 # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
 #
-permit_params :name, :cover, :order_url,# tracks: [],
+permit_params :name, :cover, :order_url, tracks: [],
     category_ids: [],
     language_ids: [],
-    speaker_ids: [],
-    tracks_attributes: [ :id, :name, :media, :_destroy, :_create, :_update ]
+    speaker_ids: []
+    # tracks_attributes: [ :id, :name, :media, :_destroy, :_create, :_update ]
 #
 # or
 #
@@ -24,15 +24,15 @@ permit_params :name, :cover, :order_url,# tracks: [],
             f.input :categories, :as => :select, :input_html => {:multiple => true, class: "categories_select", style: "width: 80%;"}
             f.input :speakers, :as => :select, :input_html => {:multiple => true, class: "speakers_select", style: "width: 80%;"}
             f.input :languages, :as => :select, :input_html => {:multiple => true, class: "languages_select", style: "width: 80%;"}
-            # f.input :tracks, :as => :file, :input_html => {:multiple => true, class: "filepond", style: "width: 80%;"}
-            # render 'new_form', {f: f}
+            f.input :tracks1, :as => :file, :input_html => {:multiple => true, class: "filepond", id: "file-music", style: "width: 80%;", "data-direct-upload-url": rails_direct_uploads_url}, direct_upload: true
+            render 'new_form', {f: f}
         end
-        f.inputs "Add Tracks" do
-            f.has_many :tracks, allow_destroy: true, heading: false do |b|
-                b.input :name
-                b.input :media, label: "Tracks", as: :file, input_html: { "data-direct-upload-url": rails_direct_uploads_url }
-            end
-        end
+        # f.inputs "Add Tracks" do
+        #     f.has_many :tracks, allow_destroy: true, heading: false do |b|
+        #         b.input :name
+        #         b.input :media, label: "Tracks", as: :file, input_html: { "data-direct-upload-url": rails_direct_uploads_url }
+        #     end
+        # end
         f.actions
     end
 
@@ -71,11 +71,8 @@ permit_params :name, :cover, :order_url,# tracks: [],
         end
         panel "Available Tracks" do
             table_for cd.tracks do
-                column "Track Name" do |track|
-                    track.name
-                end
                 column "Track" do |track|
-                    link_to "Download Track", rails_blob_path(track.media, disposition: "attachment")
+                    link_to "Download Track", rails_blob_path(track, disposition: "attachment")
                 end
             end
         end

@@ -6,7 +6,7 @@ class Api::V1::CdsController < ApiController
 
   def show
     @cd = Cd.find params[:id]
-    json_response(@cd.tracks, "success", {}, 200)
+    json_response(@cd, "success", {}, 200)
   end
 
   def feedback
@@ -23,5 +23,9 @@ class Api::V1::CdsController < ApiController
   def ratings
     @cd = Cd.find params[:id]
     json_response(@cd.feedbacks, "success", {}, 200)
+  end
+
+  def tracks
+    show
   end
 end
